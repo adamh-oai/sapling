@@ -2571,6 +2571,8 @@ def difffeatureopts(
 
     buildopts["hashbinary"] = ui.configbool("diff", "hashbinary")
     buildopts["filtercopysource"] = ui.configbool("diff", "filtercopysource")
+    buildopts["extdiffcmd"] = ui.config("ui", "extdiffcmd")
+    buildopts["extdiffopts"] = ui.configlist("ui", "extdiffopts")
     if whitespace:
         buildopts["ignorews"] = get("ignore_all_space", "ignorews")
         buildopts["ignorewsamount"] = get("ignore_space_change", "ignorewsamount")

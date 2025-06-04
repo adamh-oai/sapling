@@ -2047,6 +2047,17 @@ def diffordiffstat(
     hunksfilterfn=None,
 ):
     """show diff or diffstat."""
+    if diffopts.extdiffcmd and not stat:
+        from .ext import extdiff as _extdiff
+        cmdline = diffopts.extdiffcmd
+        if diffopts.extdiffopts:
+            cmdline += " " + " ".join(map(util.shellquote, diffopts.extdiffopts))
+        opts = {
+            "rev": [str(ctx1.rev()), str(ctx2.rev())],
+            "patch": False,
+        }
+        _extdiff.dodiff(ui, repo, cmdline, list(match.files()), opts)
+        return
     if fp is None:
         if stat:
             write = ui.write

@@ -88,6 +88,8 @@ class diffopts:
         "worddiff": False,
         "hashbinary": False,
         "filtercopysource": False,
+        "extdiffcmd": "",
+        "extdiffopts": [],
     }
 
     def __init__(self, **opts):
