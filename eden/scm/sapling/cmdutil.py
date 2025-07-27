@@ -1911,6 +1911,23 @@ def diffordiffstat(
     hunksfilterfn=None,
 ):
     """show diff or diffstat."""
+    exttool = ui.config("diff", "tool")
+    if exttool and not stat:
+        from sapling.ext import extdiff
+
+        if not extdiff.cmdtable:
+            raise error.Abort(_("extdiff plugin not enabled"))
+
+        if exttool not in extdiff.cmdtable:
+            raise error.Abort(_("unknown extdiff tool '%s'") % exttool)
+
+        opts = {
+            "rev": [str(ctx1.rev()), str(ctx2.rev())],
+            "option": [],
+        }
+
+        extdiff.cmdtable[exttool][0](ui, repo, *list(match.files()), **opts)
+        return
     if fp is None:
         if stat:
             write = ui.write
